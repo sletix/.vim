@@ -9,11 +9,10 @@ set incsearch
 set number      "add line numbers
 "set showbreak=...
 "set wrap linebreak nolist
-colorscheme BusyBee "Night
-"colorscheme habilight "Sun
+
 set sw=2
 set sts=2
-set gfn=Monaco:h11
+set gfn=Menlo:h11
 
 "Keys for splits
 nmap <D-d> :vsplit<CR>
@@ -127,3 +126,7 @@ set noswapfile
 " Syntax
 au BufRead,BufNewFile *.pill setf ruby
 au BufRead,BufNewFile *.rabl setf ruby
+
+" Solarized scheme
+set background=dark
+colorscheme solarized
