@@ -1,15 +1,46 @@
-" first option
+" no vi-compatible
 set nocompatible
-
-" ----------------------------------------------------
-" # load plugins with pathogen
-" ----------------------------------------------------
+" required for vundle
 filetype off
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
-filetype plugin indent on
-" ----------------------------------------------------
 
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" --------------------------------------------------
+" list of plugins from github
+" --------------------------------------------------
+"
+Bundle 'gmarik/vundle'
+
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-rails'
+Bundle 'kchmck/vim-coffee-script'
+
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-eunuch'
+Bundle 'jtratner/vim-flavored-markdown'
+Bundle 'tpope/vim-haml'
+Bundle "pangloss/vim-javascript"
+Bundle 'topfunky/PeepOpen-EditorSupport', {'rtp': 'vim-peepopen'}
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'xolox/vim-session'
+" Bundle 'tope/vim-surround'
+Bundle 'vim-scripts/ZoomWin'
+Bundle 'orntrace/bufexplorer'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'nono/vim-handlebars'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'ervandew/supertab'
+Bundle 'scrooloose/syntastic'
+Bundle 'godlygeek/tabular'
+Bundle 'mbbill/undotree'
+Bundle 'mileszs/ack.vim'
+
+filetype plugin indent on     " required!
 
 " ----------------------------------------------------
 " # set options
@@ -19,6 +50,7 @@ set history=1000
 set hlsearch
 set incsearch
 set ignorecase
+set smartcase
 set number
 set linebreak wrap nolist
 set showbreak=↪
@@ -51,6 +83,9 @@ scriptencoding utf-8
 
 syntax on
 
+" using brew install the_silver_searcher with ack.vim
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 " font
 set gfn=Menlo\ for\ Powerline:h12
 
@@ -59,7 +94,6 @@ set background=dark
 let g:solarized_termcolors = 256
 let g:solarized_visibility = 'high'
 let g:solarized_contrast = 'high'
-let g:solarized_termtrans = 1
 colorscheme solarized
 
 " syntastic
@@ -78,9 +112,18 @@ set noshowmode
 "set autowriteall
 
 " ctrlp
-let g:ctrlp_working_path_mode = 'c'
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git)$'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_extensions = ['dir', 'mixed']
+
+nmap <Leader>w :CtrlP ~/work/
+
+let g:vundle_default_git_proto = 'git'
+
+
+" Disable beep and flash with vim
+set noeb vb t_vb=
 
 " vim-sessions
 let g:session_default_to_last = 1
@@ -90,6 +133,7 @@ let g:session_autosave_periodic = 1
 let g:session_default_name = 'default'
 let g:session_command_aliases = 1
 
+" add python powerline
 set rtp+=~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 
 " indentLine
@@ -104,17 +148,23 @@ set undodir=~/.vim/undo
 set undolevels=1000
 set undoreload=10000
 
+" for vim-javascript
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
+
 " ----------------------------------------------------
 " # some functions
 " ----------------------------------------------------
 "
 
 " Highlight current line in insert mode
-autocmd InsertEnter * set cursorline!
-autocmd InsertLeave * set nocursorline
+au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+au WinLeave * setlocal nocursorline
 
 " few colors
-hi WildMenu guibg=IndianRed
+hi! WildMenu guibg=IndianRed
+hi! CursorLineNr guibg=#073642 guisp=#eee8d5 guifg=NONE
 
 " whitespaces cleaning
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -169,16 +219,11 @@ augroup END
 " # syntax
 " ----------------------------------------------------
 "
-" add .pill, .rabl with ruby
 au BufRead,BufNewFile *.pill setf ruby
 au BufRead,BufNewFile *.rabl setf ruby
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setf nginx | endif
-
-" enable flavored-markdown
-augroup markdown
-    au!
-    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-augroup END
+au BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
+au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 
 
 " ----------------------------------------------------
@@ -200,10 +245,13 @@ nmap <C-l> <C-w>l
 nmap <D-O> <c-w>o
 
 " resize split
-nmap <D-H> :vertical resize -4<cr>
-nmap <D-L> :vertical resize +4<cr>
-nmap <D-J> :resize +4<cr>
-nmap <D-K> :resize -4<cr>
+map <D-J> :resize +2<cr>
+map <D-H> :vertical resize -2<cr>
+map <D-L> :vertical resize +2<cr>
+map <D-K> :resize -2<cr>
+
+" quick .vimrc edit
+nmap <Leader>vim :e ~/.vimrc<cr>
 
 " open project tree
 silent! nmap <silent> <Leader>t :NERDTreeToggle<CR>
@@ -229,10 +277,10 @@ nmap <D-8> 8gt
 nmap <D-9> 9gt
 
 " move blocks in visual
-vmap <C-S-h> <gv
-vmap <C-S-l> >gv
-vmap <C-S-j> :m'>+<CR>gv=`<my`>mzgv`yo`z
-vmap <C-S-k> :m'<-2<CR>gv=`>my`<mzgv`yo`z
+vmap <C-h> <gv
+vmap <C-l> >gv
+vmap <C-j> :m'>+<CR>gv=`<my`>mzgv`yo`z
+vmap <C-k> :m'<-2<CR>gv=`>my`<mzgv`yo`z
 
 " quick-switch to colorscheme - dark or light
 nmap <Leader>dark :set background=dark<cr>
@@ -244,9 +292,11 @@ nmap <Leader>s :SaveSession!<cr>:OpenSession!<Space>
 " open undo/redo history split
 nmap <Leader>h :UndotreeToggle<cr>
 
-" remap some commands...
+" sys short aliases for some commands
 cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('w'):('Q'))
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
 cnoreabbrev <expr> E ((getcmdtype() is# ':' && getcmdline() is# 'E')?('e'):('E'))
 cnoreabbrev <expr> rm ((getcmdtype() is# ':' && getcmdline() is# 'rm')?('Remove'):('rm'))
 cnoreabbrev <expr> rm! ((getcmdtype() is# ':' && getcmdline() is# 'rm!')?('Remove!'):('rm!'))
+cnoreabbrev <expr> mv ((getcmdtype() is# ':' && getcmdline() is# 'mv')?('Move'):('mv'))
+cnoreabbrev <expr> wsudo ((getcmdtype() is# ':' && getcmdline() is# 'wsudo')?('SudoWrite'):('wsudo'))
