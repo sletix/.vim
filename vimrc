@@ -5,12 +5,16 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" speed up
+set lazyredraw
+set ttyfast
+
 " --------------------------------------------------
 " list of plugins from github
 " --------------------------------------------------
 "
 Bundle 'gmarik/vundle'
-"Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
@@ -35,14 +39,14 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'ervandew/supertab'
 Bundle 'scrooloose/syntastic'
 Bundle 'godlygeek/tabular'
-"Bundle 'mbbill/undotree'
+Bundle 'mbbill/undotree'
 Bundle 'mileszs/ack.vim'
 Bundle 'troydm/zoomwintab.vim'
 "Bundle 'Floobits/floobits-vim'
 "Bundle 'vim-scripts/cmdalias.vim'
 "Bundle 'vim-scripts/ingo-library'
 "Bundle 'vim-scripts/ProportionalResize.git'
-
+Bundle 'airblade/vim-gitgutter'
 
 " ----------------------------------------------------
 " # set options
@@ -103,11 +107,11 @@ set background=dark " dark | light "
 colorscheme solarized
 filetype plugin on
 
-" hard way?
-inoremap <Left>  <NOP>
-inoremap <Right> <NOP>
-inoremap <Up>    <NOP>
-inoremap <Down>  <NOP>
+ "hard way?
+"inoremap <Left>  <NOP>
+"inoremap <Right> <NOP>
+"inoremap <Up>    <NOP>
+"inoremap <Down>  <NOP>
 
 " vim-rspec
 "let g:RspecBin = "bundle exec rspec"
@@ -148,8 +152,8 @@ set noeb vb t_vb=
 " store undo history
 set undofile
 set undodir=~/.vim/undo
-set undolevels=10
-set undoreload=10000
+set undolevels=100
+set undoreload=100000
 " tmp/* without undok
 " au BufWritePre /tmp/* setlocal noundofile
 
@@ -220,9 +224,20 @@ au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 " ----------------------------------------------------
 "
 
-" create splits
-nmap <D-d> :vsplit<cr>
-nmap <D-D> :split<cr>
+" keys with leader
+map <Leader>v :vsplit<cr>
+map <Leader>g :split<cr>
+map <Leader>q :q<cr>
+map <Leader>w :w<cr>
+map <Leader>wq :wq<cr>
+map <Leader>- :resize -2<cr>
+map <Leader>= :resize +2<cr>
+map <Leader>_ :vertical resize -2<cr>
+map <Leader>+ :vertical resize +2<cr>
+"map <silent> <D-J> :resize +2<cr>
+"map <silent> <D-H> :vertical resize -2<cr>
+"map <silent> <D-L> :vertical resize +2<cr>
+"map <silent> <D-K> :resize -2<cr>
 
 " navigate with splits
 nmap <C-h> <C-w>h
@@ -267,11 +282,11 @@ set wildmode=list:longest
 " exit from insert using kj
 inoremap kj <Esc>
 
+set clipboard=unnamed
+
 " resize split
-map <silent> <D-J> :resize +2<cr>
-map <silent> <D-H> :vertical resize -2<cr>
-map <silent> <D-L> :vertical resize +2<cr>
-map <silent> <D-K> :resize -2<cr>
+"map <silent> <D-j> :resize +2<cr>
+"map <silent> <D-k> :resize -2<cr>
 
 " move blocks in visual
 vmap <C-h> <gv
@@ -281,6 +296,7 @@ vmap <C-k> :m'<-2<cr>gv=`>my`<mzgv`yo`z
 
 " quick edit self config
 nmap <Leader>vim :e ~/.vimrc<cr>
+
 
 " open project tree
 nmap <silent> <Leader>t :NERDTreeToggle<cr>
@@ -329,3 +345,9 @@ function DeleteHiddenBuffers()
 endfunction
 
 command! CleanBuffers call DeleteHiddenBuffers()
+
+" allow russian keys
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
