@@ -13,6 +13,7 @@ set ttyfast
 " list of plugins from github
 " --------------------------------------------------
 "
+Bundle 'slim-template/vim-slim.git'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
@@ -46,7 +47,7 @@ Bundle 'troydm/zoomwintab.vim'
 "Bundle 'vim-scripts/cmdalias.vim'
 "Bundle 'vim-scripts/ingo-library'
 "Bundle 'vim-scripts/ProportionalResize.git'
-Bundle 'airblade/vim-gitgutter'
+"Bundle 'airblade/vim-gitgutter'
 
 " ----------------------------------------------------
 " # set options
@@ -351,3 +352,8 @@ set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
+
+command! WQ wq
+command! Wq wq
+command! W w
+command! Q q
