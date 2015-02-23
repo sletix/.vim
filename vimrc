@@ -17,6 +17,10 @@ Bundle 'slim-template/vim-slim.git'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
+
+"Uncomment in ubuntu:
+"Bundle 'Lokaltog/vim-powerline'
+
 "Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'altercation/vim-colors-solarized'

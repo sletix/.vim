@@ -15,6 +15,9 @@
 
 **`optional`**
 
-* [Powerline python-version](https://github.com/Lokaltog/powerline)
+* [Powerline installs](https://powerline.readthedocs.org/en/latest/installation.html#installation-on-various-platforms)
+    pip install --user powerline-status
+
+    # uncomment in vimrc: Bundle "Lokaltog/vim-powerline" and run :BundleInstall in vim
 
 * [Menlo font with Powerline](https://gist.github.com/1595572)
