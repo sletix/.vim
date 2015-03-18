@@ -155,10 +155,12 @@ set noeb vb t_vb=
 "let g:indentLine_indentLevel = 4
 
 " store undo history
-set undofile
-set undodir=~/.vim/undo
-set undolevels=100
-set undoreload=100000
+if has("persistent_undo")
+  set undofile
+  set undodir=~/.vim/undo
+  set undolevels=100
+  set undoreload=100000
+endif
 " tmp/* without undok
 " au BufWritePre /tmp/* setlocal noundofile
 
