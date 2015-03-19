@@ -21,3 +21,6 @@
     # uncomment in vimrc: Bundle "Lokaltog/vim-powerline" and run :BundleInstall in vim
 
 * [Menlo font with Powerline](https://gist.github.com/1595572)
+
+
+* tmux config: wget https://gist.github.com/sletix/4598bfe919ff51b0a3cc/raw -O ~/.tmux.conf
