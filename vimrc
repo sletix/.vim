@@ -19,7 +19,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'altercation/vim-colors-solarized'
+"Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-endwise'
 "Bundle 'tpope/vim-eunuch'
 Bundle 'jtratner/vim-flavored-markdown'
@@ -48,6 +48,8 @@ Bundle 'troydm/zoomwintab.vim'
 "Bundle 'vim-scripts/ingo-library'
 "Bundle 'vim-scripts/ProportionalResize.git'
 "Bundle 'airblade/vim-gitgutter'
+Bundle 'leafo/moonscript-vim'
+Bundle 'rust-lang/rust.vim'
 
 " ----------------------------------------------------
 " # set options
@@ -172,8 +174,8 @@ hi! WildMenu guibg=IndianRed
 hi! CursorLineNr guibg=#073642 guisp=#eee8d5 guifg=NONE
 
 " whitespaces cleaning
-highlight ExtraWhitespace ctermbg=red guibg=red
-au ColorScheme * highlight ExtraWhitespace guibg=red
+highlight ExtraWhitespace ctermbg=red guibg=IndianRed
+au ColorScheme * highlight ExtraWhitespace guibg=IndianRed
 au BufEnter * match ExtraWhitespace /\s\+$/
 au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\s\+$/
@@ -332,6 +334,9 @@ nmap <Leader>p :CtrlP<cr>
 "command! RSpecCurrent call RSpecCurrent()
 
 "command! Bundler execute("!" . g:bundler_bin)
+
+" jsonize
+command! -range -nargs=0 -bar Jsonize <line1>,<line2>!python -m json.tool
 
 " turn off folding
 set nofoldenable
