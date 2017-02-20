@@ -17,13 +17,9 @@ Bundle 'slim-template/vim-slim.git'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
-
-"Uncomment in ubuntu:
-"Bundle 'Lokaltog/vim-powerline'
-
 "Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'altercation/vim-colors-solarized'
+"Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-endwise'
 "Bundle 'tpope/vim-eunuch'
 Bundle 'jtratner/vim-flavored-markdown'
@@ -32,10 +28,10 @@ Bundle 'pangloss/vim-javascript'
 "Bundle 'topfunky/PeepOpen-EditorSupport', {'rtp': 'vim-peepopen'}
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'airblade/vim-rooter'
-Bundle 'vim-scripts/jam.vim'
 "Bundle 'xolox/vim-session'
 "Bundle 'tope/vim-surround'
 "Bundle 'orntrace/bufexplorer'
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Raimondi/delimitMate'
 Bundle 'nono/vim-handlebars'
@@ -52,6 +48,16 @@ Bundle 'troydm/zoomwintab.vim'
 "Bundle 'vim-scripts/ingo-library'
 "Bundle 'vim-scripts/ProportionalResize.git'
 "Bundle 'airblade/vim-gitgutter'
+Bundle 'leafo/moonscript-vim'
+Bundle 'rust-lang/rust.vim'
+
+if has("nvim")
+  Bundle 'Shougo/deoplete.nvim'
+  let g:deoplete#enable_at_startup = 1
+
+  Bundle 'vim-airline/vim-airline'
+  let g:airline_powerline_fonts = 1
+endif
 
 " ----------------------------------------------------
 " # set options
@@ -155,12 +161,10 @@ set noeb vb t_vb=
 "let g:indentLine_indentLevel = 4
 
 " store undo history
-if has("persistent_undo")
-  set undofile
-  set undodir=~/.vim/undo
-  set undolevels=100
-  set undoreload=100000
-endif
+set undofile
+set undodir=~/.vim/undo
+set undolevels=100
+set undoreload=100000
 " tmp/* without undok
 " au BufWritePre /tmp/* setlocal noundofile
 
@@ -178,8 +182,8 @@ hi! WildMenu guibg=IndianRed
 hi! CursorLineNr guibg=#073642 guisp=#eee8d5 guifg=NONE
 
 " whitespaces cleaning
-highlight ExtraWhitespace ctermbg=red guibg=red
-au ColorScheme * highlight ExtraWhitespace guibg=red
+highlight ExtraWhitespace ctermbg=red guibg=IndianRed
+au ColorScheme * highlight ExtraWhitespace guibg=IndianRed
 au BufEnter * match ExtraWhitespace /\s\+$/
 au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\s\+$/
@@ -260,8 +264,14 @@ nmap <C-l> <C-w>l
 "nmap K k
 
 " add python powerline
-set rtp+=~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 
+"let g:python2_host_prog = '/usr/local/bin/python'
+"let g:python3_host_prog = '/usr/local/bin/python3'
+
+if !has("nvim")
+  " enable powerline for old style vim
+  set rtp+=~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
+endif
 
 " Tab completion
 " will insert tab at beginning of line,
@@ -338,6 +348,9 @@ nmap <Leader>p :CtrlP<cr>
 "command! RSpecCurrent call RSpecCurrent()
 
 "command! Bundler execute("!" . g:bundler_bin)
+
+" jsonize
+command! -range -nargs=0 -bar Jsonize <line1>,<line2>!python -m json.tool
 
 " turn off folding
 set nofoldenable
