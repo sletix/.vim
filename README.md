@@ -1,19 +1,18 @@
 # NeoVim compatibility
 > https://github.com/neovim/neovim
 
-   # install neovim with python  
+      # install neovim with python  
+      brew install python
+      brew install python3
    
-   brew install python
-   brew install python3
+      pip  install --upgrade neovim
+      pip2  install --upgrade neovim
+      pip3  install --upgrade neovim
    
-   pip  install --upgrade neovim
-   pip2  install --upgrade neovim
-   pip3  install --upgrade neovim
+      brew install neovim/neovim/neovim
    
-   brew install neovim/neovim/neovim
-   
-   ln -s ~/.vim ~/.config/nvim
-   ln -s ~/.vimrc ~/.config/nvim/init.vim
+      ln -s ~/.vim ~/.config/nvim
+      ln -s ~/.vimrc ~/.config/nvim/init.vim
 
 # install notes
 
