@@ -40,6 +40,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'ervandew/supertab'
 Bundle 'scrooloose/syntastic'
 Bundle 'godlygeek/tabular'
+"Bundle 'mbbill/undotree'
 Bundle 'mileszs/ack.vim'
 Bundle 'troydm/zoomwintab.vim'
 "Bundle 'Floobits/floobits-vim'
@@ -48,7 +49,8 @@ Bundle 'troydm/zoomwintab.vim'
 "Bundle 'vim-scripts/ProportionalResize.git'
 "Bundle 'airblade/vim-gitgutter'
 Bundle 'leafo/moonscript-vim'
-Bundle 'rust-lang/rust.vim'
+"Bundle 'rust-lang/rust.vim'
+Bundle 'rhysd/vim-crystal'
 
 if has("nvim")
   Bundle 'Shougo/deoplete.nvim'
@@ -56,6 +58,9 @@ if has("nvim")
 
   Bundle 'vim-airline/vim-airline'
   let g:airline_powerline_fonts = 1
+
+  nmap <BS> <C-W>h
+
 endif
 
 " ----------------------------------------------------
@@ -248,6 +253,16 @@ map <Leader>+ :vertical resize +2<cr>
 "map <silent> <D-H> :vertical resize -2<cr>
 "map <silent> <D-L> :vertical resize +2<cr>
 "map <silent> <D-K> :resize -2<cr>
+map <Leader>tn :tabnew<cr>
+map <Leader>tw :tabclose<cr>
+map <leader>t1 1gt<cr>
+map <Leader>t2 2gt<cr>
+map <Leader>t3 3gt<cr>
+map <Leader>t4 4gt<cr>
+map <Leader>t5 5gt<cr>
+map <Leader>t6 6gt<cr>
+map <Leader>t7 7gt<cr>
+"map <Leader>[ :tabprev<cr>
 
 " navigate with splits
 nmap <C-h> <C-w>h
