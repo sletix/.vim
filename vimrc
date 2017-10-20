@@ -3,6 +3,7 @@ set nocompatible
 filetype off
 
 set rtp+=~/.vim/bundle/vundle/
+set rtp+=/usr/local/opt/fzf
 call vundle#rc()
 
 " speed up
@@ -16,10 +17,9 @@ set ttyfast
 Bundle 'slim-template/vim-slim.git'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
+"Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
-"Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-endwise'
 "Bundle 'tpope/vim-eunuch'
 Bundle 'jtratner/vim-flavored-markdown'
@@ -32,9 +32,9 @@ Bundle 'airblade/vim-rooter'
 "Bundle 'tope/vim-surround'
 "Bundle 'orntrace/bufexplorer'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'kien/ctrlp.vim'
+"Bundle 'kien/ctrlp.vim'
 Bundle 'Raimondi/delimitMate'
-Bundle 'nono/vim-handlebars'
+"Bundle 'nono/vim-handlebars'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
 Bundle 'ervandew/supertab'
@@ -43,22 +43,27 @@ Bundle 'godlygeek/tabular'
 "Bundle 'mbbill/undotree'
 Bundle 'mileszs/ack.vim'
 Bundle 'troydm/zoomwintab.vim'
+Bundle 'junegunn/fzf.vim'
+Bundle 'junegunn/goyo.vim'
+Bundle 'vim-airline/vim-airline-themes'
 "Bundle 'Floobits/floobits-vim'
 "Bundle 'vim-scripts/cmdalias.vim'
 "Bundle 'vim-scripts/ingo-library'
 "Bundle 'vim-scripts/ProportionalResize.git'
 "Bundle 'airblade/vim-gitgutter'
-Bundle 'leafo/moonscript-vim'
+"Bundle 'leafo/moonscript-vim'
 "Bundle 'rust-lang/rust.vim'
 Bundle 'rhysd/vim-crystal'
+Bundle 'airblade/vim-gitgutter'
 
 if has("nvim")
   Bundle 'Shougo/deoplete.nvim'
   let g:deoplete#enable_at_startup = 1
 
   Bundle 'vim-airline/vim-airline'
-  let g:airline_powerline_fonts = 1
-
+  let g:airline_powerline_fonts = 0
+  let g:airline_theme='badwolf'
+  "let g:airline_solarized_bg='dark'
   nmap <BS> <C-W>h
 
 endif
@@ -84,9 +89,24 @@ set laststatus=2
 set encoding=utf-8
 set shiftround
 set tabstop=2
-set expandtab
 "set showcmd
-set mouse=a
+set mouse=
+
+" remove trackpad
+"
+noremap <ScrollWheelUp> <nop>
+noremap <S-ScrollWheelUp> <nop>
+noremap <C-ScrollWheelUp> <nop>
+noremap <ScrollWheelDown> <nop>
+noremap <S-ScrollWheelDown> <nop>
+noremap <C-ScrollWheelDown> <nop>
+noremap <ScrollWheelLeft> <nop>
+noremap <S-ScrollWheelLeft> <nop>
+noremap <C-ScrollWheelLeft> <nop>
+noremap <ScrollWheelRight> <nop>
+noremap <S-ScrollWheelRight> <nop>
+noremap <C-ScrollWheelRight> <nop>
+
 set wildmenu
 set tabpagemax=15
 set novisualbell
@@ -106,6 +126,12 @@ if executable('ag')
   let g:ackprg='ag --nogroup --nocolor --column'
 endif
 
+" GitGutter styling to use · instead of +/-
+let g:gitgutter_sign_added = '∙'
+let g:gitgutter_sign_modified = '∙'
+let g:gitgutter_sign_removed = '∙'
+let g:gitgutter_sign_modified_removed = '∙'
+
 " font
 set gfn=Menlo:h14
 
@@ -115,6 +141,9 @@ set gfn=Menlo:h14
 "let g:solarized_visibility = 'high'
 "let g:solarized_contrast = 'high'
 "colorscheme solarized
+
+" prose mode
+nmap <Leader>prose :Goyo<cr>
 
 " tmux solorized
 set t_Co=16
@@ -149,9 +178,14 @@ set noshowmode
 "set autowriteall
 
 " ctrlp
-let g:ctrlp_custom_ignore = '\v[\/]\.(git)$'
-let g:ctrlp_extensions = ['dir', 'mixed']
-let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_custom_ignore = '\v[\/]\.(git)$'
+"let g:ctrlp_extensions = ['dir', 'mixed']
+"let g:ctrlp_working_path_mode = 0
+
+" fzf
+nmap ; :Buffers<CR>
+nmap <Leader>p :Files<CR>
+nmap <Leader>r :Tags<CR>
 
 let g:vundle_default_git_proto = 'git'
 
@@ -343,7 +377,7 @@ nmap <Leader>[ :nohlsearch<cr>
 nmap <Leader>? :nohlsearch<cr>
 
 " for ctrlp
-nmap <Leader>p :CtrlP<cr>
+"nmap <Leader>p :CtrlP<cr>
 
 " rspec
 "let g:bundler_bin = '/Users/sletix/.rbenv/shims/bundle'
@@ -381,7 +415,7 @@ endfunction
 command! CleanBuffers call DeleteHiddenBuffers()
 
 " allow russian keys
-set keymap=russian-jcukenwin
+"set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
