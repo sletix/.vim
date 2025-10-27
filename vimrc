@@ -3,24 +3,38 @@ set nocompatible
 filetype off
 
 set rtp+=~/.vim/bundle/vundle/
-set rtp+=/usr/local/opt/fzf
+set rtp+=/usr/homebrew/opt/fzf/
 call vundle#rc()
 
 " speed up
 set lazyredraw
 set ttyfast
 
+" for auto reload file if it changes
+set autoread
+au CursorHold * checktime
+
 " --------------------------------------------------
 " list of plugins from github
 " --------------------------------------------------
 "
+
+" copilot + codecompanion
+Bundle 'nvim-lua/plenary.nvim'
+Bundle 'nvim-treesitter/nvim-treesitter'
+Bundle 'MeanderingProgrammer/render-markdown.nvim'
+Bundle 'OXY2DEV/markview.nvim'
+Bundle 'echasnovski/mini.diff'
+Bundle 'olimorris/codecompanion.nvim'
+Bundle 'github/copilot.vim'
+
 Bundle 'slim-template/vim-slim.git'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 "Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'tpope/vim-endwise'
+"Bundle 'tpope/vim-endwise'
 "Bundle 'tpope/vim-eunuch'
 Bundle 'jtratner/vim-flavored-markdown'
 Bundle 'tpope/vim-haml'
@@ -31,7 +45,12 @@ Bundle 'airblade/vim-rooter'
 "Bundle 'xolox/vim-session'
 "Bundle 'tope/vim-surround'
 "Bundle 'orntrace/bufexplorer'
-Bundle 'altercation/vim-colors-solarized'
+"Bundle 'altercation/vim-colors-solarized'
+Bundle 'shaunsingh/solarized.nvim'
+"Bundle 'ericbn/vim-solarized'
+Bundle 'shaunsingh/nord.nvim'
+Bundle 'shaunsingh/moonlight.nvim'
+Bundle 'EdenEast/nightfox.nvim'
 "Bundle 'kien/ctrlp.vim'
 Bundle 'Raimondi/delimitMate'
 "Bundle 'nono/vim-handlebars'
@@ -43,9 +62,11 @@ Bundle 'godlygeek/tabular'
 "Bundle 'mbbill/undotree'
 Bundle 'mileszs/ack.vim'
 Bundle 'troydm/zoomwintab.vim'
+Bundle 'junegunn/fzf', { 'dir': '/usr/homebrew/opt/fzf' }
 Bundle 'junegunn/fzf.vim'
 Bundle 'junegunn/goyo.vim'
 Bundle 'vim-airline/vim-airline-themes'
+Bundle 'elixir-editors/vim-elixir'
 "Bundle 'Floobits/floobits-vim'
 "Bundle 'vim-scripts/cmdalias.vim'
 "Bundle 'vim-scripts/ingo-library'
@@ -54,7 +75,75 @@ Bundle 'vim-airline/vim-airline-themes'
 "Bundle 'leafo/moonscript-vim'
 "Bundle 'rust-lang/rust.vim'
 Bundle 'rhysd/vim-crystal'
-Bundle 'airblade/vim-gitgutter'
+"Bundle 'neoclide/coc.nvim'
+Bundle 'mxw/vim-jsx'
+"Bundle 'keith/swift.vim'
+
+" setup codecompanion with copilot
+" new models: GET https://api.individual.githubcopilot.com/models:
+"
+"id: gpt-4.1, premium: false, state: "enabled", context: 128000, output: 16384, prompt: 128000
+"id: gpt-5-mini, premium: false, state: "enabled", context: 264000, output: 64000, prompt: 128000
+"id: gpt-5, premium: true, state: "enabled", context: 264000, output: 64000, prompt: 128000
+"id: gpt-3.5-turbo, premium: false, state: nil, context: 16384, output: 4096, prompt: 16384
+"id: gpt-3.5-turbo-0613, premium: false, state: nil, context: 16384, output: 4096, prompt: 16384
+"id: gpt-4o-mini, premium: false, state: nil, context: 128000, output: 4096, prompt: 64000
+"id: gpt-4o-mini-2024-07-18, premium: false, state: nil, context: 128000, output: 4096, prompt: 64000
+"id: gpt-4, premium: false, state: nil, context: 32768, output: 4096, prompt: 32768
+"id: gpt-4-0613, premium: false, state: nil, context: 32768, output: 4096, prompt: 32768
+"id: gpt-4o, premium: false, state: nil, context: 128000, output: 4096, prompt: 64000
+"id: gpt-4o-2024-11-20, premium: false, state: nil, context: 128000, output: 16384, prompt: 64000
+"id: gpt-4o-2024-05-13, premium: false, state: nil, context: 128000, output: 4096, prompt: 64000
+"id: gpt-4-o-preview, premium: false, state: nil, context: 128000, output: 4096, prompt: 64000
+"id: gpt-4o-2024-08-06, premium: false, state: nil, context: 128000, output: 16384, prompt: 64000
+"id: o3-mini-paygo, premium: true, state: nil, context: 200000, output: 100000, prompt: 64000
+"id: grok-code-fast-1, premium: false, state: "enabled", context: 128000, output: 64000, prompt: 128000
+"id: claude-3.5-sonnet, premium: true, state: "enabled", context: 90000, output: 8192, prompt: 90000
+"id: claude-sonnet-4, premium: true, state: "enabled", context: 216000, output: 16000, prompt: 128000
+"id: claude-sonnet-4.5, premium: true, state: "enabled", context: 144000, output: 16000, prompt: 128000
+"id: claude-haiku-4.5, premium: true, state: "enabled", context: 144000, output: 16000, prompt: 128000
+"id: gemini-2.5-pro, premium: true, state: "enabled", context: 128000, output: 64000, prompt: 128000
+"id: gpt-4.1-2025-04-14, premium: false, state: "enabled", context: 128000, output: 16384, prompt: 128000
+"
+lua << EOF
+  require("codecompanion").setup({
+    adapters = {
+      http = {
+        copilot = function()
+          return require("codecompanion.adapters").extend("copilot", {
+            schema = {
+              model = {
+                -- claude -- all premium
+                -- default = "claude-3.5-sonnet",
+                -- default = "claude-sonnet-4",
+                -- default = "claude-sonnet-4.5",
+                -- default = "claude-haiku-4.5",
+                --
+
+                -- gpt
+                -- default = "gpt-4.1",
+                -- default = "gpt-5-mini",
+                -- default = "gpt-5", -- premium
+                --
+
+                -- other
+                default = "grok-code-fast-1",
+                -- default = "o3-mini-paygo", -- premium
+                -- default = "gemini-2.5-pro", -- premium
+              },
+            },
+          })
+        end,
+      },
+    },
+    strategies = {
+      chat = { adapter = "copilot" },
+      inline = { adapter = "copilot" },
+      agent = { adapter = "copilot" },
+      cmd = { adapter = "copilot" },
+    },
+  })
+EOF
 
 if has("nvim")
   Bundle 'Shougo/deoplete.nvim'
@@ -146,10 +235,12 @@ set gfn=Menlo:h14
 nmap <Leader>prose :Goyo<cr>
 
 " tmux solorized
-set t_Co=16
-set background=dark " dark | light "
+"set t_Co=16
+"set background=dark " dark | light "
 colorscheme solarized
-filetype plugin on
+"colorscheme nightfox
+"colorscheme moonlight
+"filetype plugin on
 
  "hard way?
 "inoremap <Left>  <NOP>
@@ -376,6 +467,27 @@ nmap <silent> <Leader>o :call TrimWhiteSpace()<cr>
 nmap <Leader>[ :nohlsearch<cr>
 nmap <Leader>? :nohlsearch<cr>
 
+" open code companion
+nmap <Leader>chat :CodeCompanionChat Toggle<cr>
+
+" disable copilot
+nmap <Leader>off :Copilot disable<cr>
+
+" enable copilot
+nmap <Leader>on :Copilot enable<cr>
+
+" assist for selection
+" Map <Leader>ass in visual mode to call CodeCompanion
+xnoremap <silent> <Leader>chat :<C-u>'<,'>CodeCompanion 
+
+" settings for copilot
+"let g:copilot_no_tab_map = v:true
+"imap <silent><expr> <C-l> copilot#Accept("\<CR>")
+"imap <silent> <C-j> <Plug>(copilot-suggest)
+
+imap <silent><expr> <C-l> copilot#Next()
+imap <silent><expr> <C-h> copilot#Previous()
+
 " for ctrlp
 "nmap <Leader>p :CtrlP<cr>
 
@@ -424,3 +536,6 @@ command! WQ wq
 command! Wq wq
 command! W w
 command! Q q
+
+" disable copilot by default
+"let g:copilot_enabled = v:false

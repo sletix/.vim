@@ -1,6 +1,7 @@
 # NeoVim compatibility
 > https://github.com/neovim/neovim
 
+
       # install neovim with python  
       brew install python
       brew install python3
