@@ -106,6 +106,7 @@ Bundle 'mxw/vim-jsx'
 "id: gpt-4.1-2025-04-14, premium: false, state: "enabled", context: 128000, output: 16384, prompt: 128000
 "
 lua << EOF
+  -- setup codecompanion with copilot adapter
   require("codecompanion").setup({
     adapters = {
       http = {
@@ -143,6 +144,29 @@ lua << EOF
       cmd = { adapter = "copilot" },
     },
   })
+
+  -- disable copilot in codecompanion buffers
+  --
+  local copilot_enabled = true
+
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*",
+    callback = function()
+      local ft = vim.bo.filetype
+      if ft == "codecompanion" then
+        if copilot_enabled then
+          vim.cmd("Copilot disable")
+          copilot_enabled = false
+        end
+      else
+        if not copilot_enabled then
+          vim.cmd("Copilot enable")
+          copilot_enabled = true
+        end
+      end
+    end,
+  })
+
 EOF
 
 if has("nvim")
